@@ -12,12 +12,12 @@ For each result image this script change the link to point directly to
 the image, and add another link that point to the page that holds the
 image.
 
-Opera users please read [http://www.opera.com/docs/userjs/using/#securepages](this).
+Opera users please read [this](http://www.opera.com/docs/userjs/using/#securepages).
 
 To install in google chrome Google chrome follow
-[http://techie-buzz.com/browsers/chrome-blocking-extension-apps-scripts-chrome-web-store.html](this)
+[this](http://techie-buzz.com/browsers/chrome-blocking-extension-apps-scripts-chrome-web-store.html)
 instructions or use the extension
-[https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en](Tampermonkey).
+[Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en).
 
 **Note:** The basic search is now broken.
 

@@ -2,7 +2,7 @@
 ==============
 
 This script allows to save and restore any previous state of the
-popular [http://gabrielecirulli.github.io/2048/](2048 game).
+popular [2048 game](http://gabrielecirulli.github.io/2048/).
 
 ## Changelog
 
