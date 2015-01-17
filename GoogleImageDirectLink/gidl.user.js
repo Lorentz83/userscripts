@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Google Images direct link
-// @namespace      http://userscripts.org/users/lorentz
+// @namespace      https://github.com/Lorentz83
 // @description    Add direct link to images and pages in google image search
 // @include        http*://images.google.*/images*
 // @include        http*://www.google.*/images*
@@ -9,11 +9,11 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        5.2
+// @version        5.3
 // @grant          none
-// @icon           http://s3.amazonaws.com/uso_ss/icon/78355/large.png
-// @updateURL      https://userscripts.org/scripts/source/78355.meta.js
-// @downloadURL    https://userscripts.org/scripts/source/78355.user.js
+// @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
+// @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
+// @downloadURL    https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.user.js
 // ==/UserScript==
 
 /**
@@ -99,7 +99,12 @@ if ( imgTable ) { // for basic version
 }
 else { // standard version
   console.log("standard version");
-  var stopEvent = function(event){ event.stopPropagation() }
+  var stopEvent = function(event){
+    if (event.button === 0 && event.type==='click') {
+      window.location.href = this.href;
+    }
+    event.stopPropagation() 
+  }
   
   var fixStyle = function(target){
     var parent = target.parentNode;
