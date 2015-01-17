@@ -9,6 +9,10 @@ displayed in a tree structure.
 
 ## Changelog
 
+### Version 1.3
+- new (and useful) namespace
+- updateURL and downloadURL point to greasyfork.org
+
 ### Version 1.2
 - Bugfix: the tree view didn't work after a search
 

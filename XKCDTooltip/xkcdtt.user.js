@@ -1,15 +1,16 @@
 // ==UserScript==
-// @name              XKCD tooltip
+// @name           XKCD tooltip
 // @namespace      http://userscripts.org/users/lorentz
-// @description     This script puts the xkcd tooltip under the picture and adds a link to explainxkcd.com
-// @include           http://xkcd.com/*
-// @include           http://www.xkcd.com/*
-// @include           http://what-if.xkcd.com/*
-// @grant              none
-// @version           1
-// @icon                http://s3.amazonaws.com/uso_ss/icon/78091/large.png?1398164995
-// @updateURL      https://userscripts.org/scripts/source/78091.meta.js
-// @downloadURL  https://userscripts.org/scripts/source/78091.user.js
+// @description    This script puts the xkcd tooltip under the picture and adds a link to explainxkcd.com
+// @include        http://xkcd.com/*
+// @include        http://www.xkcd.com/*
+// @include        https://www.xkcd.com/*
+// @include        http://what-if.xkcd.com/*
+// @grant          none
+// @version        1.1
+// @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/XKCDTooltip/icon.png
+// @updateURL      https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.meta.js
+// @downloadURL    https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.user.js
 // ==/UserScript==
 
 /**

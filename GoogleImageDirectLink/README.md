@@ -23,6 +23,11 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 5.3
+- new (and useful) namespace
+- updateURL and downloadURL point to greasyfork.org
+- bugfix (nothing happened on left click on an image)
+
 ### Version 5.2
 Bug fix: wrong url in youtube video preview
 

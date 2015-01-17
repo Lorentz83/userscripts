@@ -5,8 +5,10 @@
 // @include		http://www.google.com/bookmarks/*
 // @include		https://www.google.com/bookmarks/*
 // @require		http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js
-// @version		1.2
+// @version		1.3
 // @grant		none
+// @updateURL		https://greasyfork.org/scripts/3186-google-bookmarks-nested-labels/code/Google%20Bookmarks%20Nested%20Labels.meta.js
+// @downloadURL		https://greasyfork.org/scripts/3186-google-bookmarks-nested-labels/code/Google%20Bookmarks%20Nested%20Labels.user.js
 // ==/UserScript==
 
 /**

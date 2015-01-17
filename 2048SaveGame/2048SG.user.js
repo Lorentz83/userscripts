@@ -3,8 +3,11 @@
 // @description This script allows to save and restore any previous state of the popular 2048 game.
 // @namespace   https://github.com/Lorentz83/
 // @include     http://gabrielecirulli.github.io/2048/
-// @version     0.9
+// @version     1.0
 // @grant       none
+// @icon        https://raw.githubusercontent.com/Lorentz83/userscripts/master/2048SaveGame/icon.png
+// @updateURL   https://greasyfork.org/scripts/3189-2048-save-game/code/2048%20save%20game.meta.js
+// @downloadURL https://greasyfork.org/scripts/3189-2048-save-game/code/2048%20save%20game.user.js
 // ==/UserScript==
 
 var game = {

@@ -15,6 +15,11 @@ tooltip under the image itself.
 
 ## Changelog
 
+### Version 1.1
+- new (and useful) namespace
+- updateURL and downloadURL point to greasyfork.org
+- support to https
+
 ### Version 1
 - Added icon;
 - Added automatic update support
