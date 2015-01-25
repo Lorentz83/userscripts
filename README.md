@@ -5,4 +5,5 @@ This repository collects my greasemonkey userscripts since
 UserScripts.org fallen into disrepair.
 
 They are online also on 
-[GreasyFork](https://greasyfork.org/en/users/3315-lorentz83).
+[GreasyFork](https://greasyfork.org/en/users/3315-lorentz83) and
+[OpenUserJS](https://openuserjs.org/users/Lorentz83).

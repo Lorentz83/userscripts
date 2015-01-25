@@ -11,6 +11,7 @@
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/XKCDTooltip/icon.png
 // @updateURL      https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.user.js
+// @license        GPLv2; http://www.gnu.org/licenses/
 // ==/UserScript==
 
 /**

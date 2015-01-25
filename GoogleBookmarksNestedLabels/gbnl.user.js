@@ -9,6 +9,7 @@
 // @grant		none
 // @updateURL		https://greasyfork.org/scripts/3186-google-bookmarks-nested-labels/code/Google%20Bookmarks%20Nested%20Labels.meta.js
 // @downloadURL		https://greasyfork.org/scripts/3186-google-bookmarks-nested-labels/code/Google%20Bookmarks%20Nested%20Labels.user.js
+// @license             GPLv2; http://www.gnu.org/licenses/
 // ==/UserScript==
 
 /**

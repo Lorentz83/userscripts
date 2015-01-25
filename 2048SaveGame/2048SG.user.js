@@ -8,6 +8,7 @@
 // @icon        https://raw.githubusercontent.com/Lorentz83/userscripts/master/2048SaveGame/icon.png
 // @updateURL   https://greasyfork.org/scripts/3189-2048-save-game/code/2048%20save%20game.meta.js
 // @downloadURL https://greasyfork.org/scripts/3189-2048-save-game/code/2048%20save%20game.user.js
+// @license     GPLv2; http://www.gnu.org/licenses/
 // ==/UserScript==
 
 var game = {

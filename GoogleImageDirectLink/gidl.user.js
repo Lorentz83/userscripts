@@ -14,6 +14,7 @@
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.user.js
+// @license        GPLv2; http://www.gnu.org/licenses/
 // ==/UserScript==
 
 /**
