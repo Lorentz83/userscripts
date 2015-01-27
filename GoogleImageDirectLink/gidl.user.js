@@ -9,7 +9,7 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        5.3
+// @version        5.4
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
@@ -101,9 +101,6 @@ if ( imgTable ) { // for basic version
 else { // standard version
   console.log("standard version");
   var stopEvent = function(event){
-    if (event.button === 0 && event.type==='click') {
-      window.location.href = this.href;
-    }
     event.stopPropagation() 
   }
   
@@ -135,8 +132,14 @@ else { // standard version
       var a = firstOrNull(image.getElementsByTagName('a'));
       var links = getNewImageLinks(a.href);
       a.href = links.toImgHref;
+      
+      var newA = document.createElement('a');
+      newA.style = a.style;
+      newA.innerHTML = a.innerHTML;
+      newA.href = a.href;
+      a.parentNode.replaceChild(newA, a);
+      a=newA;
       a.addEventListener('click', stopEvent, false);
-	  a.addEventListener('mousedown', stopEvent, false);
 
       var newContainer = document.createElement('div');
       newContainer.className = 'newCont';
@@ -149,6 +152,7 @@ else { // standard version
       
       var desc = span.innerHTML;
       span.innerHTML = '<a style="color:#fff" href="' + links.toPageHref + '">' + desc + '</a>';
+      span.addEventListener('click', stopEvent, false);
       image.className += ' linkOk'
       fixBoxObserver.observe(a, fixBoxMutationConfig);
     }
@@ -254,5 +258,4 @@ else { // standard version
   
   console.log('end standard version');
 } //end standard version
-
 

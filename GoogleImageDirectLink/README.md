@@ -23,6 +23,9 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 5.4
+- [bugfix](https://greasyfork.org/en/forum/discussion/2898/a-new-tab): chrome didn't open new tabs on middle click
+
 ### Version 5.3
 - new (and useful) namespace
 - updateURL and downloadURL point to greasyfork.org
