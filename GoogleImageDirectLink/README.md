@@ -23,6 +23,9 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 5.4a
+- [bugfix](https://greasyfork.org/de/forum/discussion/3123/popup-not-correctly-aligned): page url outside the image box
+
 ### Version 5.4
 - [bugfix](https://greasyfork.org/en/forum/discussion/2898/a-new-tab): chrome didn't open new tabs on middle click
 

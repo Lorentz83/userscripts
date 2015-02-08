@@ -9,7 +9,7 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        5.4
+// @version        5.4a
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
@@ -185,7 +185,7 @@ else { // standard version
   newBoxObserver.observe(document.body, newBoxMutationConfig);
 
   var css = [];  var i = 0;
-  css[i++] = '.newCont { position: relative; }';
+  css[i++] = '.newCont { position: relative; height: 100%; }';
   css[i++] = '.newCont .rg_ilmbg { display: none; }';
   css[i++] = '.newCont:hover .rg_ilmbg { display: block; }';
   
