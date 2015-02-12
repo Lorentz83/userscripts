@@ -9,7 +9,7 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        5.4a
+// @version        5.4b
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
@@ -105,19 +105,22 @@ else { // standard version
   }
   
   var fixStyle = function(target){
+    if (target.style.color == 'gray')
+      return; //only to avoid endless loops
+    target.style.color = 'gray'; 
     var parent = target.parentNode;
     parent.style.height = target.style.height;
     parent.style.width = target.style.width;
     parent.style.left = target.style.left;
-    target.style.left = 'auto';
+    
   }
   
   var fixBoxObserver = new MutationObserver(function(mutations){
     mutations.forEach(function(mutation) {
       var target = mutation.target;
       var parent = mutation.target.parentNode;
-      if (mutation.attributeName === 'style' && target.style.left !== 'auto'){
-	fixStyle(target);
+      if (mutation.attributeName === 'style'){
+	      fixStyle(target);
       }
     });
   });
@@ -185,8 +188,10 @@ else { // standard version
   newBoxObserver.observe(document.body, newBoxMutationConfig);
 
   var css = [];  var i = 0;
-  css[i++] = '.newCont { position: relative; height: 100%; }';
-  css[i++] = '.newCont .rg_ilmbg { display: none; }';
+  css[i++] = '.newCont { min-height: 30px; position: relative; height:100%; overflow: hidden; }';
+  css[i++] = '.newCont>a { display: block; width: 100%; text-align: center; }';
+  css[i++] = '.newCont>a>img { display: inline-block; }';
+  css[i++] = '.newCont .rg_ilmbg { display: none; left:0; }';
   css[i++] = '.newCont:hover .rg_ilmbg { display: block; }';
   
   css[i++] = '.imgSiteLnk {'; //img preview

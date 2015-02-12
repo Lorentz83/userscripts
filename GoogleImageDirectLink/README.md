@@ -23,6 +23,9 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 5.4b
+- [bugfix](https://greasyfork.org/en/forum/discussion/comment/9870/#Comment_9870): some css adjustuments to make the page url better aligned with the image even on smaller icons
+
 ### Version 5.4a
 - [bugfix](https://greasyfork.org/de/forum/discussion/3123/popup-not-correctly-aligned): page url outside the image box
 
