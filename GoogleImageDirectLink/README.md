@@ -23,6 +23,10 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 5.4c
+-
+[bugfix](https://greasyfork.org/en/forum/discussion/comment/10025/#Comment_10025): double label issue fixed
+
 ### Version 5.4b
 - [bugfix](https://greasyfork.org/en/forum/discussion/comment/9870/#Comment_9870): some css adjustuments to make the page url better aligned with the image even on smaller icons
 

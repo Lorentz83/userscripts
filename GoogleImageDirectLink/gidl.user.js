@@ -9,7 +9,7 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        5.4b
+// @version        5.4c
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
@@ -191,6 +191,7 @@ else { // standard version
   css[i++] = '.newCont { min-height: 30px; position: relative; height:100%; overflow: hidden; }';
   css[i++] = '.newCont>a { display: block; width: 100%; text-align: center; }';
   css[i++] = '.newCont>a>img { display: inline-block; }';
+  css[i++] = '.newCont > a :not(img) { display: none; visibility: hidden; }';
   css[i++] = '.newCont .rg_ilmbg { display: none; left:0; }';
   css[i++] = '.newCont:hover .rg_ilmbg { display: block; }';
   
