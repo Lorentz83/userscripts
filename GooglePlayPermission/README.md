@@ -18,5 +18,8 @@ Some known issues:
 
 ## Changelog
 
+### Version 2.3
+- now it works also when the user is logged!
+
 ### Version 2.2
 - restored on 2015-04-09

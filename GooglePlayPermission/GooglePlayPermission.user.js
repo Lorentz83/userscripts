@@ -4,7 +4,7 @@
 // @namespace   https://github.com/Lorentz83/
 // @include     https://play.google.com/*
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js
-// @version     2.2
+// @version     2.3
 // @grant       none
 // @license     GPLv2; http://www.gnu.org/licenses/
 // @noframes
@@ -24,6 +24,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 
 var PermissionFilters = function() {
     var This = this;
@@ -80,6 +81,9 @@ var permissionFilterer = new PermissionFilters();
 var AppCardManager = function(permissionFilterer){
     var This = this;
     
+    this.token = eval(window._uc)[0];
+    console.log("ajax token:", this.token);
+
     this.permissionFilterer = permissionFilterer;
     
     this._parseReponse = function(data) {
@@ -133,12 +137,16 @@ var AppCardManager = function(permissionFilterer){
     }
     
     this.loadPermissionAjax = function (appHtmlContainer, permissionHtmlContainer, appID) {
+        var data = { ids: appID };
+        if ( This.token != null ) {
+            data.token = This.token;
+        }
         $.ajax({
           permissionHtmlContainer: permissionHtmlContainer,
           appHtmlContainer: appHtmlContainer,
           type: 'POST',
           url:  'https://play.google.com/store/xhr/getdoc?authuser=0',
-          data: { ids: appID },
+          data: data,
           dataType: 'text',
           success: This._loadPermissionAjaxSuccess,
           error: This._loadPermissionAjaxFailure
