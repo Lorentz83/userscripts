@@ -23,9 +23,13 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 6
+- bugfix: direct link to pages in google search image preview works again;
+- [new feature](https://greasyfork.org/en/forum/discussion/4841/) hack
+   to redirect directly the image when clicking on a preview in the google search;
+
 ### Version 5.4c
--
-[bugfix](https://greasyfork.org/en/forum/discussion/comment/10025/#Comment_10025): double label issue fixed
+- [bugfix](https://greasyfork.org/en/forum/discussion/comment/10025/#Comment_10025): double label issue fixed
 
 ### Version 5.4b
 - [bugfix](https://greasyfork.org/en/forum/discussion/comment/9870/#Comment_9870): some css adjustuments to make the page url better aligned with the image even on smaller icons

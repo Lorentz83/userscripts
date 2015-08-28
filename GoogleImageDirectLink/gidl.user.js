@@ -9,7 +9,7 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        5.4c
+// @version        6
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
@@ -81,6 +81,38 @@ var getNewImageLinks = function (url) {
 
 var firstOrNull = function (elems) {
   return (elems.length > 0 ) ? elems[0] : null;
+}
+
+var hashRegEx = /imgrc=([^&]*)&/;
+
+
+console.log("checking hash ",window.location.hash )
+var match = hashRegEx.exec(window.location.hash);
+var name = null;
+if (match != null) {
+  name = match[1];
+} else {
+  console.log("checking URL");
+  var fir = parseUrl(window.location.href)['fir'];
+  if ( fir!= null ){
+    name = doubleDecode(fir).split(',')[0];
+  }
+}
+if (name != null){
+  console.log("big preview found, trying to redirect directly to the image", name);
+  var els = document.getElementsByName(name);
+  
+  if (els.length > 0) {
+    console.log("found image, trying to redirect directly to the image");
+    var link = els[0].parentElement.href;
+    console.log(link);
+    var imgLink = getImageLinks(link).toImgHref;
+        console.log(imgLink);
+
+    if (imgLink != null) {
+     window.location.replace(imgLink);
+    }
+  }
 }
 
 var imgTable = firstOrNull(document.getElementsByClassName('images_table'));
@@ -212,19 +244,17 @@ else { // standard version
   document.head.appendChild(style);
 
   //img preview in google search (only links to page)
-  var fixImagePreview = function(div){
+  var fixImagePreview = function(){
 	var images = document.getElementsByClassName('bicc');
 	console.log('img preview in google search ' + images.length);
 	for (var i = 0 ; i<images.length ; i++) {
 		var div = images[i];
-		var el = div.getElementsByTagName('a');
-		if ( el.length == 1 ) {
+    var anchor = div.getElementsByTagName('a');
+		var img = div.getElementsByTagName('img');
+		if ( img.length == 1 && div.className.indexOf('imgPrev')==-1 ) {
 			div.className += ' imgPrev';
 			//div.style.border = '4em solid black';
-			var href = el[0].href;
-			var link = doubleDecode(parseUrl(href)['imgil']);
-			if (link === false) continue;
-			link = decode(link.split(';')[5]);
+			var link = img[0].title;
 			
 			var a = document.createElement('a');
 			a.href = link;
