@@ -15,6 +15,9 @@ tooltip under the image itself.
 
 ## Changelog
 
+### Version 1.1b
+- included https and www variants of xkcd and whatif
+
 ### Version 1.1
 - new (and useful) namespace
 - updateURL and downloadURL point to greasyfork.org
