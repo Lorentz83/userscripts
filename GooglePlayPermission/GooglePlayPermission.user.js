@@ -4,7 +4,7 @@
 // @namespace   https://github.com/Lorentz83/
 // @include     https://play.google.com/*
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js
-// @version     2.3
+// @version     2.3a
 // @grant       none
 // @license     GPLv2; http://www.gnu.org/licenses/
 // @noframes
@@ -90,8 +90,9 @@ var AppCardManager = function(permissionFilterer){
         var details;
         data = data.replace(")]}'\n\n","details = ");
         eval(data);
-        details = details[0][2][0][55][42656262][1];
-	      //console.log(details)
+        //console.log('parsed', details);
+        details = details[0][2][0][60][42656262][1];
+	      //console.log('filtered', details)
         var permissions = [[],[],[]];
         details.forEach(function(el, idx){
             el.forEach(function (el, idx){
@@ -104,6 +105,7 @@ var AppCardManager = function(permissionFilterer){
                 }
             });
         });
+        //console.log('parsed', permissions)
         return permissions;
     }
    

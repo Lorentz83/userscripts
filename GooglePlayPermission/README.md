@@ -18,6 +18,9 @@ Some known issues:
 
 ## Changelog
 
+### Version 2.3a
+- update to fix google json change
+
 ### Version 2.3
 - now it works also when the user is logged!
 
