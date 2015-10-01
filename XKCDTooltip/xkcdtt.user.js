@@ -41,13 +41,14 @@ var addTitleBox = function(img, after) {
     
       var titleBox = document.createElement('div');
       titleBox.innerHTML = title;
-      titleBox.style.backgroundColor='#FFF36F';
-      titleBox.style.fontVariant='normal';
-      titleBox.style.border='1px solid #7F7F7F';
-      titleBox.style.padding='2px';
+      titleBox.classList.add('box');
+      titleBox.style.backgroundColor='#96A8C8';
+      titleBox.style.padding='5px';
       titleBox.style.width='60%';
       titleBox.style.margin='auto';
       titleBox.style.fontSize='70%';
+      titleBox.style.fontWeight='bold';
+      titleBox.style.color='#fff';
   
       addAfter(after,titleBox);
       return titleBox;
