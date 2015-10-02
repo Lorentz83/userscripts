@@ -31,6 +31,13 @@
 
 var css = [];
 var i = 0;
+css[i++] = ".tooltip { ";
+css[i++] = "    padding: 5px; ";
+css[i++] = "    margin: 2ex auto 1ex; ";
+css[i++] = "    font-size: 70%; ";
+css[i++] = "    width: 60%; ";
+css[i++] = "    border-style: solid; ";
+css[i++] = "}";
 css[i++] = ".xkcdtooltip {";
 css[i++] = "    background-color: #6e7b91; ";
 css[i++] = "    box-shadow: 0 0 5px 0 gray; ";
@@ -38,14 +45,12 @@ css[i++] = "    color: #fff; ";
 css[i++] = "    font-weight: bold; ";
 css[i++] = "    border-color: #071419; ";
 css[i++] = "    border-radius: 12px; ";
-css[i++] = "}";
-css[i++] = ".tooltip { ";
-css[i++] = "    padding: 5px; ";
-css[i++] = "    margin: 2ex auto 1ex; ";
-css[i++] = "    font-size: 70%; ";
-css[i++] = "    width: 60%; ";
-css[i++] = "    border-style: solid; ";
 css[i++] = "    border-width: 1.5px; ";
+css[i++] = "}";
+css[i++] = ".whatiftooltip { ";
+css[i++] = "    background-color: #fff36f; ";
+css[i++] = "    border: 1px solid #7f7f7f; ";
+css[i++] = "    font-variant: normal; ";
 css[i++] = "}";
 
 var addAfter = function (dom, newNode){
@@ -68,6 +73,12 @@ var addTitleBox = function(img, after, cssClass) {
 }
 
 window.onload = function() {  
+
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = css.join('\n');
+  document.head.appendChild(style);
+    
   var comicBox = document.getElementById('comic');
   
   if (comicBox) {
@@ -89,8 +100,4 @@ window.onload = function() {
     }
   }
 
-  var style = document.createElement('style');
-  style.type = 'text/css';
-  style.innerHTML = css.join('\n');
-  document.head.appendChild(style);
 };
