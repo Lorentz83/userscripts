@@ -7,7 +7,7 @@
 // @include        http*://what-if.xkcd.com/*
 // @include        http*://www.what-if.xkcd.com/*
 // @grant          none
-// @version        1.1b
+// @version        1.1c
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/XKCDTooltip/icon.png
 // @updateURL      https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.user.js
@@ -42,10 +42,11 @@ var addTitleBox = function(img, after) {
       var titleBox = document.createElement('div');
       titleBox.innerHTML = title;
       titleBox.classList.add('box');
-      titleBox.style.backgroundColor='#96A8C8';
+      titleBox.style.backgroundColor='#6e7b91';
+      titleBox.style.boxShadow='0 0 5px 0 gray';
       titleBox.style.padding='5px';
       titleBox.style.width='60%';
-      titleBox.style.margin='auto';
+      titleBox.style.margin='2ex auto 1ex';
       titleBox.style.fontSize='70%';
       titleBox.style.fontWeight='bold';
       titleBox.style.color='#fff';
