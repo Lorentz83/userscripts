@@ -16,7 +16,10 @@ tooltip under the image itself.
 ## Changelog
 
 ### Version 1.1c
-- new graphical style (thanks to @Ede123, #3)
+- new style ([see discussion](https://github.com/Lorentz83/userscripts/commit/9e6a704665c22c0bd5bbccef4edcc82c735863f8))
+
+### Version 1.1c
+- new graphical style (thanks to [@Ede123](https://github.com/Lorentz83/userscripts/pull/3))
 
 ### Version 1.1b
 - included https and www variants of xkcd and whatif

@@ -7,7 +7,7 @@
 // @include        http*://what-if.xkcd.com/*
 // @include        http*://www.what-if.xkcd.com/*
 // @grant          none
-// @version        1.1c
+// @version        1.1d
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/XKCDTooltip/icon.png
 // @updateURL      https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.user.js
@@ -34,23 +34,18 @@ var i = 0;
 css[i++] = ".tooltip { ";
 css[i++] = "    padding: 5px; ";
 css[i++] = "    margin: 2ex auto 1ex; ";
-css[i++] = "    font-size: 70%; ";
+css[i++] = "    font-size: 80%; ";
 css[i++] = "    width: 60%; ";
 css[i++] = "    border-style: solid; ";
+css[i++] = "    border-radius: 12px; ";
 css[i++] = "}";
 css[i++] = ".xkcdtooltip {";
-css[i++] = "    background-color: #6e7b91; ";
-css[i++] = "    box-shadow: 0 0 5px 0 gray; ";
-css[i++] = "    color: #fff; ";
-css[i++] = "    font-weight: bold; ";
-css[i++] = "    border-color: #071419; ";
-css[i++] = "    border-radius: 12px; ";
-css[i++] = "    border-width: 1.5px; ";
+css[i++] = "    border-width: 1px; ";
 css[i++] = "}";
 css[i++] = ".whatiftooltip { ";
-css[i++] = "    background-color: #fff36f; ";
-css[i++] = "    border: 1px solid #7f7f7f; ";
-css[i++] = "    font-variant: normal; ";
+css[i++] = "    border: 1px solid #005994; ";
+css[i++] = "    padding: 1.5ex; ";
+css[i++] = "    margin-top: 0; ";
 css[i++] = "}";
 
 var addAfter = function (dom, newNode){
