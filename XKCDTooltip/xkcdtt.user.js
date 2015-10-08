@@ -7,7 +7,7 @@
 // @include        http*://what-if.xkcd.com/*
 // @include        http*://www.what-if.xkcd.com/*
 // @grant          none
-// @version        1.1d
+// @version        1.5
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/XKCDTooltip/icon.png
 // @updateURL      https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.user.js
@@ -33,7 +33,7 @@ var css = [];
 var i = 0;
 css[i++] = ".tooltip { ";
 css[i++] = "    padding: 5px; ";
-css[i++] = "    margin: 2ex auto 1ex; ";
+css[i++] = "    margin: 15px auto 20px; ";
 css[i++] = "    font-size: 80%; ";
 css[i++] = "    width: 60%; ";
 css[i++] = "    border-style: solid; ";
@@ -80,11 +80,17 @@ window.onload = function() {
       var img = comicBox.getElementsByTagName('img')[0];
       var titleBox = addTitleBox(img, comicBox, 'xkcdtooltip');
       var name = document.getElementById('ctitle').innerHTML;
-      var a = document.createElement('a');
       var id = document.location.href.split('/')[3];
-      a.href = 'http://www.explainxkcd.com/wiki/index.php?title=' + id;
-      a.innerHTML = 'explain this';
-      addAfter(titleBox,a);
+      
+      var navs = document.getElementsByClassName('comicNav');
+      for (var i = 0 ; i < navs.length ; i++ ) {
+        var a = document.createElement('a');
+        a.href = 'http://www.explainxkcd.com/wiki/index.php?title=' + id;
+        a.innerHTML = 'Explain';
+        var li = document.createElement('li');
+        li.appendChild(a);
+        addAfter(navs[i].children [2], li);
+      }
   }
   
   var article = document.getElementsByTagName('article');

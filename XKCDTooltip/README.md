@@ -15,6 +15,9 @@ tooltip under the image itself.
 
 ## Changelog
 
+### Version 1.5
+- link to explainxkcd integrated into the navbar
+
 ### Version 1.1c
 - new style ([see discussion](https://github.com/Lorentz83/userscripts/commit/9e6a704665c22c0bd5bbccef4edcc82c735863f8))
 
