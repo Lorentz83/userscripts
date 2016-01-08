@@ -4,8 +4,10 @@
 // @description Changes the page to display directly the bigger version of the comic
 // @include     http://www.gocomics.com/*
 // @icon        https://raw.githubusercontent.com/Lorentz83/userscripts/master/BiggerGocomics/icon.png
-// @version     0.9
+// @version     0.9a
 // @grant       none
+// @license     GPLv2; http://www.gnu.org/licenses/
+// @updateURL   https://greasyfork.org/en/scripts/16045-biggergocomics/code/bgc.meta.js
 // ==/UserScript==
 
 var photo = document.querySelector('#content a.photo');
