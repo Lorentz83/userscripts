@@ -6,8 +6,9 @@
 // @include        http*://www.xkcd.com/*
 // @include        http*://what-if.xkcd.com/*
 // @include        http*://www.what-if.xkcd.com/*
+// @include        http*://store.xkcd.com/collections/everything/products/signed-prints
 // @grant          none
-// @version        1.5
+// @version        1.6
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/XKCDTooltip/icon.png
 // @updateURL      https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.user.js
@@ -67,38 +68,53 @@ var addTitleBox = function(img, after, cssClass) {
       return titleBox;
 }
 
-window.onload = function() {  
+var addComicLinksInStore = function() {
+  if ( document.location.host !== 'store.xkcd.com')
+      return false;
+  $(function(){
+   $('#product-select-option-0 option').each(function(){ 
+      val = $(this).val(); 
+      var a = $('<a>'); 
+      a.text(val); 
+      a.attr('href','http://xkcd.com/'+val.split(' ')[0].substr(1));
+      a.css('display','block'); 
+      $('#product-header').append(a);
+    });
+  });
+  return true; 
+}
 
-  var style = document.createElement('style');
-  style.type = 'text/css';
-  style.innerHTML = css.join('\n');
-  document.head.appendChild(style);
-    
-  var comicBox = document.getElementById('comic');
-  
-  if (comicBox) {
-      var img = comicBox.getElementsByTagName('img')[0];
-      var titleBox = addTitleBox(img, comicBox, 'xkcdtooltip');
-      var name = document.getElementById('ctitle').innerHTML;
-      var id = document.location.href.split('/')[3];
-      
-      var navs = document.getElementsByClassName('comicNav');
-      for (var i = 0 ; i < navs.length ; i++ ) {
-        var a = document.createElement('a');
-        a.href = 'http://www.explainxkcd.com/wiki/index.php?title=' + id;
-        a.innerHTML = 'Explain';
-        var li = document.createElement('li');
-        li.appendChild(a);
-        addAfter(navs[i].children [2], li);
-      }
-  }
-  
-  var article = document.getElementsByTagName('article');
-  if(article.length > 0){
-    var imgs = article[0].getElementsByTagName('img');
-    for (var i =0 ; i<imgs.length ; i++){
-        addTitleBox(imgs[i], imgs[i], 'whatiftooltip');
-    }
-  }
+if ( addComicLinksInStore() )
+  return;
 
-};
+var style = document.createElement('style');
+style.type = 'text/css';
+style.innerHTML = css.join('\n');
+document.head.appendChild(style);
+
+var comicBox = document.getElementById('comic');
+
+if (comicBox) {
+  var img = comicBox.getElementsByTagName('img')[0];
+  var titleBox = addTitleBox(img, comicBox, 'xkcdtooltip');
+  var name = document.getElementById('ctitle').innerHTML;
+  var id = document.location.href.split('/')[3];
+
+  var navs = document.getElementsByClassName('comicNav');
+  for (var i = 0 ; i < navs.length ; i++ ) {
+    var a = document.createElement('a');
+    a.href = 'http://www.explainxkcd.com/wiki/index.php?title=' + id;
+    a.innerHTML = 'Explain';
+    var li = document.createElement('li');
+    li.appendChild(a);
+    addAfter(navs[i].children [2], li);
+  }
+}
+
+var article = document.getElementsByTagName('article');
+if(article.length > 0){
+  var imgs = article[0].getElementsByTagName('img');
+  for (var i =0 ; i<imgs.length ; i++){
+    addTitleBox(imgs[i], imgs[i], 'whatiftooltip');
+  }
+}

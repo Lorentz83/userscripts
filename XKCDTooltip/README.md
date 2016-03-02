@@ -15,6 +15,9 @@ tooltip under the image itself.
 
 ## Changelog
 
+### Version 1.6
+- link to the signed prints in the [store](http://store.xkcd.com/collections/everything/products/signed-prints)
+
 ### Version 1.5
 - link to explainxkcd integrated into the navbar
 
