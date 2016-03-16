@@ -18,6 +18,10 @@ Some known issues:
 
 ## Changelog
 
+### Version 2.3b
+- update to fix ajax request
+- icon and supportURL added
+
 ### Version 2.3a
 - update to fix google json change
 

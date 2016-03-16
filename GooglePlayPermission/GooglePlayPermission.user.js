@@ -4,7 +4,9 @@
 // @namespace   https://github.com/Lorentz83/
 // @include     https://play.google.com/*
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js
-// @version     2.3a
+// @version     2.3b
+// @icon        https://raw.githubusercontent.com/Lorentz83/userscripts/master/GooglePlayPermission/icon.png
+// @supportURL  https://github.com/Lorentz83/userscripts
 // @grant       none
 // @license     GPLv2; http://www.gnu.org/licenses/
 // @noframes
@@ -82,6 +84,7 @@ var AppCardManager = function(permissionFilterer){
     var This = this;
     
     this.token = eval(window._uc)[0];
+    this.token = 'YHPsAX96QUkZHoRH9MXS60v3_10:1458056851953';
     console.log("ajax token:", this.token);
 
     this.permissionFilterer = permissionFilterer;
@@ -143,6 +146,7 @@ var AppCardManager = function(permissionFilterer){
         if ( This.token != null ) {
             data.token = This.token;
         }
+        data.xhr = 1;
         $.ajax({
           permissionHtmlContainer: permissionHtmlContainer,
           appHtmlContainer: appHtmlContainer,
