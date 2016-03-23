@@ -1,15 +1,15 @@
 Google Images direct link
 =========================
 
-**Summary**: Add direct links to images and pages in google image
-search. 
+**Summary**: This script adds direct links to images and pages in
+google image search. 
 Works in Chrome, Firefox and Opera. Please report any bug, I use only
 Firefox, so some updates my break other browsers compatibility.
 
 If you don't like the frame that Google Images leave in the pages when
 you click on an image, this script is for you.
-For each result image this script change the link to point directly to
-the image, and add another link that point to the page that holds the
+For each result image this script changes the link to point directly to
+the image, and add another link that points to the page that holds the
 image.
 
 Opera users please read [this](http://www.opera.com/docs/userjs/using/#securepages).
@@ -22,6 +22,10 @@ instructions or use the extension
 **Note:** The basic search is now broken.
 
 ## Changelog
+
+### Version 6.1
+- bugfix: [Show sizes not working](https://github.com/Lorentz83/userscripts/issues/4);
+- supportURL pointing to the github page.
 
 ### Version 6
 - bugfix: direct link to pages in google search image preview works again;

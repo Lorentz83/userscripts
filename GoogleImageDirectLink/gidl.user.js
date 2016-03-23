@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Google Images direct link
 // @namespace      https://github.com/Lorentz83
-// @description    Add direct link to images and pages in google image search
+// @description    Adds direct link to images and pages in google image search
 // @include        http*://images.google.*/images*
 // @include        http*://www.google.*/images*
 // @include        http*://www.google.*/webhp*
@@ -9,11 +9,12 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        6
+// @version        6.1
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.user.js
+// @supportURL     https://github.com/Lorentz83/userscripts
 // @license        GPLv2; http://www.gnu.org/licenses/
 // ==/UserScript==
 
@@ -226,6 +227,7 @@ else { // standard version
   css[i++] = '.newCont > a :not(img) { display: none; visibility: hidden; }';
   css[i++] = '.newCont .rg_ilmbg { display: none; left:0; }';
   css[i++] = '.newCont:hover .rg_ilmbg { display: block; }';
+  css[i++] = '.newCont .rg_anbg, .newCont .rg_an { display: block; visibility: visible; text-align: left;}';
   
   css[i++] = '.imgSiteLnk {'; //img preview
   css[i++] = '  background-color: rgba(255, 255, 255, 0.77);';
