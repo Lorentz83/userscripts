@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Google Images direct link
 // @namespace      https://github.com/Lorentz83
-// @description    Adds direct link to images and pages in google image search
+// @description    Adds direct links to images and pages in google image search
 // @include        http*://images.google.*/images*
 // @include        http*://www.google.*/images*
 // @include        http*://www.google.*/webhp*
@@ -9,7 +9,7 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        6.1
+// @version        7.0
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
@@ -33,267 +33,164 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var isUndefined = function(val) {
-	return ( (typeof val) === 'undefined' );
-}
-var decode = function(component) {
-	if ( isUndefined(component) )
-		return false;
-	return decodeURIComponent(component);
-}
-
-var doubleDecode = function (component){
-  if ( isUndefined(component) )
-	return false;
-  var tmp = decodeURIComponent(component);
-  tmp = decodeURIComponent(tmp);
-  return tmp;
+var addCss = function ( /* args... */) {
+  var css = new Array(arguments.length);
+  for (var i = 0; i < arguments.length; i++) {
+    css[i] = arguments[i];
+  }
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  style.appendChild(document.createTextNode(css.join('\n')));
+  document.head.appendChild(style);
 }
 
 var parseUrl = function (url) {
   var pos = url.indexOf('?');
-  if (pos < 0)
+  if (pos < 0) {
     return [];
-  var qparms = url.substring(pos+1);
+  }
+  var qparms = url.substring(pos + 1);
   var rawparams = qparms.split('&');
   var par = [];
-  for (var i=0 ; i<rawparams.length ; i++){
-    var p = rawparams[i].split("=");
-    par[p[0]] = p[1];
+  for (var i = 0; i < rawparams.length; i++) {
+    var p = rawparams[i].split('=');
+    var key = decodeURIComponent(p[0]);
+    var value = decodeURIComponent(p[1]);
+    par[key] = value;
   }
   return par;
 }
 
 var getImageLinks = function (url) {
   var param = parseUrl(url);
-  var links = new Object();
-  links.toImgHref = decode(param["imgurl"]);
-  links.toPageHref = decode(param["url"]);
-  return links;  
+  return {
+    toImgHref: param['imgurl'],
+    toPageHref: param['imgrefurl']
+  };
 }
 
-var getNewImageLinks = function (url) {
-  var param = parseUrl(url);
-  var links = new Object();
-  links.toImgHref = doubleDecode(param["imgurl"]);
-  links.toPageHref = decode(param["imgrefurl"]);
-  return links;  
+var stopEvent = function (event) {
+  event.stopPropagation();
 }
 
-var firstOrNull = function (elems) {
-  return (elems.length > 0 ) ? elems[0] : null;
-}
-
-var hashRegEx = /imgrc=([^&]*)&/;
-
-
-console.log("checking hash ",window.location.hash )
-var match = hashRegEx.exec(window.location.hash);
-var name = null;
-if (match != null) {
-  name = match[1];
-} else {
-  console.log("checking URL");
-  var fir = parseUrl(window.location.href)['fir'];
-  if ( fir!= null ){
-    name = doubleDecode(fir).split(',')[0];
+var fixImageBox = function (div) {
+  if (div.dataset.fixed) {
+    return;
   }
+  div.dataset.fixed = true;
+  // useful objects
+  var a = div.getElementsByTagName('a')[0];
+  var span = div.querySelector('span.rg_ilmn');
+  var links = getImageLinks(a.href);
+  //mirror style to container
+  div.style.height = a.style.height;
+  div.style.width = a.style.width;
+  div.style.left = a.style.left;
+  //replace image anchor
+  var newA = document.createElement('a');
+  newA.style = a.style;
+  while (a.childNodes.length) { 
+    newA.appendChild(a.firstChild); 
+  }
+  newA.href = links.toImgHref;
+  a.parentNode.replaceChild(newA, a);
+  a = newA;
+  //create the new container
+  var newContainer = document.createElement('div');
+  div.appendChild(newContainer);
+  newContainer.className = 'newCont';
+  newContainer.appendChild(a);
+  newContainer.appendChild(span.parentNode);
+  //create the link to the website
+  var spanLink = document.createElement('a');
+  spanLink.style.color = '#fff';
+  spanLink.textContent = span.textContent;
+  spanLink.href = links.toPageHref;
+  while (span.firstChild) {
+    span.removeChild(span.firstChild);
+  }
+  span.appendChild(spanLink);
+  span.addEventListener('click', stopEvent, false);
 }
-if (name != null){
-  console.log("big preview found, trying to redirect directly to the image", name);
-  var els = document.getElementsByName(name);
-  
-  if (els.length > 0) {
-    console.log("found image, trying to redirect directly to the image");
-    var link = els[0].parentElement.href;
-    console.log(link);
-    var imgLink = getImageLinks(link).toImgHref;
-        console.log(imgLink);
 
-    if (imgLink != null) {
-     window.location.replace(imgLink);
-    }
-  }
-}
-
-var imgTable = firstOrNull(document.getElementsByClassName('images_table'));
-if ( imgTable ) { // for basic version
-  var imgCell = imgTable.getElementsByTagName('td');
-  for( j=0 ; j<imgCell.length ; j++ ) {
-    var imageAnchor = imgCell[j].getElementsByTagName('a')[0];
-    var domainText =  imgCell[j].getElementsByTagName('cite')[0];
-    console.log(imageAnchor.href);
-    var links = getImageLinks(imageAnchor.href);
-    //links.toPageHref = imageAnchor.href; // TODO fixme
-    links.toImgHref = imageAnchor.href; // TODO fixme
-    
-    domainText.innerHTML = '<a href="' + links.toPageHref + '">' + domainText.innerHTML + '/&hellip;<\a>';
-    imageAnchor.href = links.toImgHref;
-  }
-}
-else { // standard version
-  console.log("standard version");
-  var stopEvent = function(event){
-    event.stopPropagation() 
-  }
-  
-  var fixStyle = function(target){
-    if (target.style.color == 'gray')
-      return; //only to avoid endless loops
-    target.style.color = 'gray'; 
-    var parent = target.parentNode;
-    parent.style.height = target.style.height;
-    parent.style.width = target.style.width;
-    parent.style.left = target.style.left;
-    
-  }
-  
-  var fixBoxObserver = new MutationObserver(function(mutations){
-    mutations.forEach(function(mutation) {
-      var target = mutation.target;
-      var parent = mutation.target.parentNode;
-      if (mutation.attributeName === 'style'){
-	      fixStyle(target);
+var waitLink = {
+  _conf: {
+    attributes: true,
+    attributeFilter: ['href']
+  },
+  _observer: new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      if (mutation.target.parentNode != null) {
+        waitLink.prepareImageFix(mutation.target.parentNode)
       }
     });
+  }),
+  _watch: function (a) {
+    waitLink._observer.observe(a, waitLink._conf);
+  },
+  reset: function () {
+    waitLink._observer.disconnect();
+  },
+  prepareImageFix: function (div) {
+    var as = div.getElementsByTagName('a');
+    if (as.length > 0) {
+      if (as[0].href != '') {
+        fixImageBox(div);
+      } else {
+        waitLink._watch(as[0]);
+      }
+    }
+  }
+}
+
+var fixInitialImages = function () {
+  var container = document.getElementById('rg_s');
+  var divs = container.children
+  for (var i = 0; i < divs.length; i++) {
+    var div = divs.item(i);
+    waitLink.prepareImageFix(div);
+  }
+}
+
+var newSearchObserver = new MutationObserver(function (mutations) {
+  mutations.forEach(function (mutation) {
+    if (mutation.target.id === 'rg_s') {
+      for (var i = 0; i < mutation.addedNodes.length; i++) {
+        var newNode = mutation.addedNodes.item(i);
+        if (newNode.classList && newNode.classList.contains('rg_el')) {
+          waitLink.prepareImageFix(newNode);
+        }
+      }
+    }
+    if (mutation.target.id === 'rg') {
+      waitLink.reset();
+      fixInitialImages();
+    }
   });
-  var fixBoxMutationConfig = { attributes: true, childList: true, characterData: false, subtree: false };
-    
-  var fixImageBox = function(image){
-    if ( /\blinkOk\b/.test(image.className) ) {
-      return;
-    }
-    var span = image.querySelector('span.rg_ilmn');
-    if (span !== null) {
-      var a = firstOrNull(image.getElementsByTagName('a'));
-      var links = getNewImageLinks(a.href);
-      a.href = links.toImgHref;
-      
-      var newA = document.createElement('a');
-      newA.style = a.style;
-      newA.innerHTML = a.innerHTML;
-      newA.href = a.href;
-      a.parentNode.replaceChild(newA, a);
-      a=newA;
-      a.addEventListener('click', stopEvent, false);
+});
 
-      var newContainer = document.createElement('div');
-      newContainer.className = 'newCont';
+var biggerContainer = document.getElementById('center_col');
+newSearchObserver.observe(biggerContainer, {childList: true,subtree: true});
 
-      a.parentNode.appendChild(newContainer);
-      newContainer.appendChild(a);
-      newContainer.appendChild(span.parentNode);
+fixInitialImages();
 
-      fixStyle(a);
-      
-      var desc = span.innerHTML;
-      span.innerHTML = '<a style="color:#fff" href="' + links.toPageHref + '">' + desc + '</a>';
-      span.addEventListener('click', stopEvent, false);
-      image.className += ' linkOk'
-      fixBoxObserver.observe(a, fixBoxMutationConfig);
-    }
-    else {
-      console.log("incomplete span");
-      image.className += ' notComplete';
-    }
-  }
- 
-  var fixImages = function(){
-    var imagesContainer = document.getElementById('rg_s');
-	if ( imagesContainer == null ) return;
-    var images = imagesContainer.getElementsByClassName('rg_di');
-    for (var i = 0 ; i< images.length ; i++) {
-      fixImageBox(images[i]);
-    }
-  }
-  
-  var newBoxMutationConfig = { attributes: false, childList: true, characterData: false, subtree: true };
-  var newBoxObserver = new MutationObserver(function(mutations){
-    var needFix = false;
-    mutations.forEach(function(mutation) {
-      needFix = needFix || mutation.target.id == 'rg_s';
-    });
-    if (needFix)
-      fixImages();
-  });
-
-  fixImages();
-  newBoxObserver.observe(document.body, newBoxMutationConfig);
-
-  var css = [];  var i = 0;
-  css[i++] = '.newCont { min-height: 30px; position: relative; height:100%; overflow: hidden; }';
-  css[i++] = '.newCont>a { display: block; width: 100%; text-align: center; }';
-  css[i++] = '.newCont>a>img { display: inline-block; }';
-  css[i++] = '.newCont > a :not(img) { display: none; visibility: hidden; }';
-  css[i++] = '.newCont .rg_ilmbg { display: none; left:0; }';
-  css[i++] = '.newCont:hover .rg_ilmbg { display: block; }';
-  css[i++] = '.newCont .rg_anbg, .newCont .rg_an { display: block; visibility: visible; text-align: left;}';
-  
-  css[i++] = '.imgSiteLnk {'; //img preview
-  css[i++] = '  background-color: rgba(255, 255, 255, 0.77);';
-  css[i++] = '  bottom: 0;';
-  css[i++] = '  color: #000000;';
-  css[i++] = '  display: block;';
-  css[i++] = '  line-height: normal;';
-  css[i++] = '  position: absolute;';
-  css[i++] = '  text-decoration: none;';
-  css[i++] = '  width: 100%; ';
-  css[i++] = '  display: none }';
-  css[i++] = '.imgPrev:hover .imgSiteLnk { display: block }';//img preview
-  var style = document.createElement('style');
-  style.type = 'text/css';
-  style.appendChild(document.createTextNode(css.join('\n')));
-  document.head.appendChild(style);
-
-  //img preview in google search (only links to page)
-  var fixImagePreview = function(){
-	var images = document.getElementsByClassName('bicc');
-	console.log('img preview in google search ' + images.length);
-	for (var i = 0 ; i<images.length ; i++) {
-		var div = images[i];
-    var anchor = div.getElementsByTagName('a');
-		var img = div.getElementsByTagName('img');
-		if ( img.length == 1 && div.className.indexOf('imgPrev')==-1 ) {
-			div.className += ' imgPrev';
-			//div.style.border = '4em solid black';
-			var link = img[0].title;
-			
-			var a = document.createElement('a');
-			a.href = link;
-			a.className = 'imgSiteLnk';
-			a.textContent = link.split('/')[2];
-			div.appendChild(a);
-		}
-	}
-  }
-  var searchObserver = new MutationObserver(function(mutations){
-	fixImagePreview();
-  });
-  searchObserver.observe(document.body, 
-	{ 
-		attributes: false, 
-		childList: true, 
-		characterData: false, 
-		subtree: true 
-	}
-	);
-  
-  // visually similar search img preview (oly links to image)
-  var similars = document.querySelectorAll('div#ires div.th a');
-  console.log('visually similar search ' + similars.length)
-  for (var i = 0 ; i < similars.length ; i++){
-	var a = similars[i];
-	var href = getNewImageLinks(a.href);
-	if ( href.toImgHref === false  ) {
-		continue;
-	}
-	var newA = document.createElement('a');
-	newA.href = href.toImgHref;
-	newA.appendChild(a.firstChild);
-	a.parentNode.replaceChild(newA, a);
-  }
-  
-  
-  console.log('end standard version');
-} //end standard version
-
+addCss(
+  '.newCont { min-height: 30px; position: relative; height:100%; overflow: hidden; }',
+  '.newCont>a { display: block; width: 100%; text-align: center; }',
+  '.newCont>a>img { display: inline-block; }', '.newCont > a :not(img) { display: none; visibility: hidden; }',
+  '.newCont .rg_ilmbg { display: none; left:0; }',
+  '.newCont:hover .rg_ilmbg { display: block; }',
+  '.newCont .rg_anbg, .newCont .rg_an { display: block; visibility: visible; text-align: left;}',
+  '.imgSiteLnk {',
+  '  background-color: rgba(255, 255, 255, 0.77);',
+  '  bottom: 0;',
+  '  color: #000000;',
+  '  display: block;',
+  '  line-height: normal;',
+  '  position: absolute;',
+  '  text-decoration: none;',
+  '  width: 100%; ',
+  '  display: none;',
+  '}',
+  '.imgPrev:hover .imgSiteLnk { display: block }'
+);

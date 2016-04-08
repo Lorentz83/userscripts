@@ -23,6 +23,16 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 7
+- fixed for the google changes of April 2016;
+  [bugreport](https://github.com/Lorentz83/userscripts/issues/5); 
+- most of the code has been rewritten to be faster and simpler to
+  maintain, a lot of dead code useful for older versions has been
+  deleted;
+- some features (like the direct links from the google web search) are
+  missing in this version. They will be reintroduced, but feel free to
+  fill a bugreport if you think I forgot them.
+
 ### Version 6.1
 - bugfix: [Show sizes not working](https://github.com/Lorentz83/userscripts/issues/4);
 - supportURL pointing to the github page.
