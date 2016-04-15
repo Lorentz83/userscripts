@@ -9,7 +9,7 @@
 // @include        http*://www.google.*/imgres*
 // @include        http*://images.google.*/search?*
 // @include        https://encrypted.google.com/search?*
-// @version        7.0
+// @version        7.1
 // @grant          none
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/GoogleImageDirectLink/icon.png
 // @updateURL      https://greasyfork.org/scripts/3187-google-images-direct-link/code/Google%20Images%20direct%20link.meta.js
@@ -33,6 +33,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 var addCss = function ( /* args... */) {
   var css = new Array(arguments.length);
   for (var i = 0; i < arguments.length; i++) {
@@ -47,11 +48,11 @@ var addCss = function ( /* args... */) {
 var parseUrl = function (url) {
   var pos = url.indexOf('?');
   if (pos < 0) {
-    return [];
+    return {};
   }
   var qparms = url.substring(pos + 1);
   var rawparams = qparms.split('&');
-  var par = [];
+  var par = {};
   for (var i = 0; i < rawparams.length; i++) {
     var p = rawparams[i].split('=');
     var key = decodeURIComponent(p[0]);
@@ -143,8 +144,14 @@ var waitLink = {
   }
 }
 
+// when the page loads, the first bunch of images are included directly in the html, 
+// the others are loaded asynchronously. This function fixs the first set.
 var fixInitialImages = function () {
   var container = document.getElementById('rg_s');
+  if (container === null) {
+    console.log('Cannot find the image container, is it a visually similar search?');
+    return;
+  }
   var divs = container.children
   for (var i = 0; i < divs.length; i++) {
     var div = divs.item(i);
@@ -152,9 +159,49 @@ var fixInitialImages = function () {
   }
 }
 
+// img preview in google search or visually similar (only links to page)
+// this function fixes the bunch of images at the top of a search (both visually similar and web)
+var fixSearchPreview = function(){
+  var images = document.getElementsByClassName('bicc');
+  if (images.length) {
+    console.log('This appear to be a visually similar search')
+  }
+  for (var i = 0 ; i<images.length ; i++) {
+    var div = images[i];
+    var anchor = div.getElementsByTagName('a');
+    var img = div.getElementsByTagName('img');
+    if ( img.length == 1 && !div.classList.contains('imgPrev') ) {
+      div.className += ' imgPrev';
+      //div.style.border = '4em solid black';
+      var link = img[0].title;
+
+      var a = document.createElement('a');
+      a.href = link;
+      a.classList.add('imgSiteLnk');
+      a.textContent = link.split('/')[2];
+      div.appendChild(a);
+    }
+  }
+}
+
 var newSearchObserver = new MutationObserver(function (mutations) {
   mutations.forEach(function (mutation) {
-    if (mutation.target.id === 'rg_s') {
+    if (mutation.target.id=='irc_bg') {
+      // a big preview has been opened (i.e. clicking on a preview in a visually similar search)
+      var hash = parseUrl('?'+document.location.hash);
+      var name = hash['#imgrc'];
+      var els = document.getElementsByName(name);
+      if ( els.length > 0 ) {
+        var redirectTo = els.item(0).parentNode.href;
+        if (redirectTo) {
+          document.location.replace(redirectTo);
+          return;
+        } else {
+          console.log('Error, a big preview has been opened, but no url to redirect has been found');
+        }
+      }
+    }
+    if (mutation.target.id === 'rg_s') { // just other images have been loaded
       for (var i = 0; i < mutation.addedNodes.length; i++) {
         var newNode = mutation.addedNodes.item(i);
         if (newNode.classList && newNode.classList.contains('rg_el')) {
@@ -162,17 +209,31 @@ var newSearchObserver = new MutationObserver(function (mutations) {
         }
       }
     }
-    if (mutation.target.id === 'rg') {
+    if (mutation.target.id === 'rg') { // a new search has been done
       waitLink.reset();
       fixInitialImages();
+      fixSearchPreview();
     }
   });
 });
 
+// normal usage
 var biggerContainer = document.getElementById('center_col');
 newSearchObserver.observe(biggerContainer, {childList: true,subtree: true});
-
 fixInitialImages();
+fixSearchPreview();
+
+// visually similar search img preview (oly links to image)
+// these are the small images aside the page snippets
+var similars = document.querySelectorAll('div#ires div.th a');
+for (var i = 0 ; i < similars.length ; i++){
+  var a = similars[i];
+  var href = getImageLinks(a.href);
+  var newA = document.createElement('a');
+  newA.href = href.toImgHref;
+  newA.appendChild(a.firstChild);
+  a.parentNode.replaceChild(newA, a);
+}
 
 addCss(
   '.newCont { min-height: 30px; position: relative; height:100%; overflow: hidden; }',
@@ -181,16 +242,16 @@ addCss(
   '.newCont .rg_ilmbg { display: none; left:0; }',
   '.newCont:hover .rg_ilmbg { display: block; }',
   '.newCont .rg_anbg, .newCont .rg_an { display: block; visibility: visible; text-align: left;}',
-  '.imgSiteLnk {',
-  '  background-color: rgba(255, 255, 255, 0.77);',
+  'a.imgSiteLnk {',
+  '  background-color: rgba(0, 0, 0, 0.77);',
   '  bottom: 0;',
-  '  color: #000000;',
+  '  color: #fff !important;',
   '  display: block;',
   '  line-height: normal;',
   '  position: absolute;',
-  '  text-decoration: none;',
   '  width: 100%; ',
   '  display: none;',
+  '  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;',
   '}',
   '.imgPrev:hover .imgSiteLnk { display: block }'
 );

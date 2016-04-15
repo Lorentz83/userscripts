@@ -23,6 +23,10 @@ instructions or use the extension
 
 ## Changelog
 
+### Version 7.1
+- restored working on visually similar searches
+  [bugreport](https://github.com/Lorentz83/userscripts/issues/8)
+
 ### Version 7
 - fixed for the google changes of April 2016;
   [bugreport](https://github.com/Lorentz83/userscripts/issues/5); 
