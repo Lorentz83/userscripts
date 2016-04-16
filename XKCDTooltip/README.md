@@ -15,6 +15,12 @@ tooltip under the image itself.
 
 ## Changelog
 
+### Version 1.6a
+- added support url metadata;
+- better script description;
+- fixed the tooltip not shown in some comics
+  [bugreport](https://github.com/Lorentz83/userscripts/issues/7)
+
 ### Version 1.6
 - link to the signed prints in the [store](http://store.xkcd.com/collections/everything/products/signed-prints)
 

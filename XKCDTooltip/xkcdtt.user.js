@@ -1,17 +1,18 @@
 // ==UserScript==
 // @name           XKCD tooltip
 // @namespace      https://github.com/Lorentz83
-// @description    This script puts the xkcd tooltip under the picture and adds a link to explainxkcd.com
+// @description    This script puts the xkcd tooltip under the picture and adds a link to explainxkcd.com. It does the same work with what-if tooltips. Finally, it adds links to the printed comics sold in the store.
 // @include        http*://xkcd.com/*
 // @include        http*://www.xkcd.com/*
 // @include        http*://what-if.xkcd.com/*
 // @include        http*://www.what-if.xkcd.com/*
 // @include        http*://store.xkcd.com/collections/everything/products/signed-prints
 // @grant          none
-// @version        1.6
+// @version        1.6a
 // @icon           https://raw.githubusercontent.com/Lorentz83/userscripts/master/XKCDTooltip/icon.png
 // @updateURL      https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.meta.js
 // @downloadURL    https://greasyfork.org/scripts/3188-xkcd-tooltip/code/XKCD%20tooltip.user.js
+// @supportURL     https://github.com/Lorentz83/userscripts
 // @license        GPLv2; http://www.gnu.org/licenses/
 // ==/UserScript==
 
@@ -50,22 +51,22 @@ css[i++] = "    margin-top: 0; ";
 css[i++] = "}";
 
 var addAfter = function (dom, newNode){
-    dom.parentNode.insertBefore(newNode, dom.nextSibling);
+  dom.parentNode.insertBefore(newNode, dom.nextSibling);
 }
 
 var addTitleBox = function(img, after, cssClass) {
-      var title = img.title;
-      if(title.length == 0)
-	 return null;
-      //img.title='';
-    
-      var titleBox = document.createElement('div');
-      titleBox.innerHTML = title;
-      titleBox.classList.add('tooltip');
-      titleBox.classList.add(cssClass);
-  
-      addAfter(after,titleBox);
-      return titleBox;
+  var title = img.title;
+  if(title.length == 0)
+    return null;
+  //img.title='';
+
+  var titleBox = document.createElement('div');
+  titleBox.textContent = title;
+  titleBox.classList.add('tooltip');
+  titleBox.classList.add(cssClass);
+
+  addAfter(after,titleBox);
+  return titleBox;
 }
 
 var addComicLinksInStore = function() {
@@ -95,16 +96,17 @@ document.head.appendChild(style);
 var comicBox = document.getElementById('comic');
 
 if (comicBox) {
-  var img = comicBox.getElementsByTagName('img')[0];
-  var titleBox = addTitleBox(img, comicBox, 'xkcdtooltip');
-  var name = document.getElementById('ctitle').innerHTML;
-  var id = document.location.href.split('/')[3];
+  var img = comicBox.querySelector('*[title]');
+  if (img) {
+    addTitleBox(img, comicBox, 'xkcdtooltip');
+  }
 
+  var id = document.location.href.split('/')[3];
   var navs = document.getElementsByClassName('comicNav');
   for (var i = 0 ; i < navs.length ; i++ ) {
     var a = document.createElement('a');
     a.href = 'http://www.explainxkcd.com/wiki/index.php?title=' + id;
-    a.innerHTML = 'Explain';
+    a.textContent = 'Explain';
     var li = document.createElement('li');
     li.appendChild(a);
     addAfter(navs[i].children [2], li);
