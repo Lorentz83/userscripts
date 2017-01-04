@@ -1,6 +1,10 @@
 Google Images direct link
 =========================
 
+**NOTE**: Since July 2016 this script is unmaintained. 
+It is here just for historical purposes and to allow other people fork 
+it.
+
 **Summary**: This script adds direct links to images and pages in
 google image search. 
 Works in Chrome, Firefox and Opera. Please report any bug, I use only
